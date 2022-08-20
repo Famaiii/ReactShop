@@ -38,18 +38,6 @@ header {
   }
 }
 
-
-
-.button {
-  background: #FFFFFF;
-  border: 1px solid #f2f2f2;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
-}
-
 .search-block {
   border: 1px solid #F3F3F3;
   border-radius: 10px;
@@ -64,7 +52,7 @@ header {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -74,7 +62,7 @@ header {
 }
 
 .drawer {
-  position: absolute;
+  position: fixed;
   width: 420px;
   height: 100%;
   right: 0;
