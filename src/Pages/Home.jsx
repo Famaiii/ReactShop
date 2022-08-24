@@ -1,10 +1,10 @@
 import React from 'react';
 import Card from "../components/Card/Card";
+import {AppContext} from "../App";
 
 
 const Home = ({
                   items,
-                  cartItems,
                   searchValue,
                   setSearchValue,
                   onChangeSearchInput,
@@ -23,7 +23,6 @@ const Home = ({
                     key={index}
                     onFavorite={(obj) => onAddToFavorite((obj))}
                     onPlus={(obj) => onAddToCart(obj)}
-                    added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
                     loading={isLoading}
                     {...item}
                 />
