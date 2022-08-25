@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
 body {
   margin: 0;
   font-family: 'Inter', system-ui;
@@ -193,5 +195,10 @@ header {
 
 .cartWrap {
   overflow-y: auto;
+}
+
+.sliderMar {
+  padding: 40px;
+  border-radius: 100px;
 }
 

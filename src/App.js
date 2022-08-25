@@ -8,6 +8,9 @@ import Home from "./Pages/Home";
 import Favorites from "./Pages/Favorites";
 import Orders from "./Pages/Orders";
 
+
+import UncontrolledExample from "./components/Slider/Slider";
+
 export const AppContext = React.createContext({});
 
 
@@ -138,6 +141,11 @@ function App() {
                     opened={cartOpened}/>
 
                 <Header onClickCart={() => setCartOpened(true)}/>
+
+                <div className='sliderMar'>
+                    <UncontrolledExample/>
+                </div>
+
                 <Routes>
                     <Route path="/"
                            element={<Home
