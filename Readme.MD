@@ -1,8 +1,10 @@
-Stack:
+<h1>Stack:</h1>
 
-ReactJS + хуки
-React Router
-Axios
-SCSS
-React Context
-React Skeleton
+<ol>
+<li>ReactJS + хуки</li>
+<li>React Router</li>
+<li>Axios</li>
+<li>SCSS</li>
+<li>React Context</li>
+<li>React Skeleton</li>
+</ol>
