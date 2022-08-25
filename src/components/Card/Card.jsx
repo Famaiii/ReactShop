@@ -5,6 +5,7 @@ import {AppContext} from "../../App";
 
 const Card = ({
                   id,
+                  parentId,
                   onFavorite,
                   title,
                   imageUrl,
@@ -19,11 +20,11 @@ const Card = ({
 
 
     const onClickPlus = () => {
-        onPlus({id, title, imageUrl, price});
+        onPlus({id, parentId: id, title, imageUrl, price});
     }
 
     const onClickFavorite = () => {
-        onFavorite({id, title, imageUrl, price})
+        onFavorite({id, parentId: id, title, imageUrl, price})
         setIsFavorite(!isFavorite)
     }
 
@@ -32,7 +33,7 @@ const Card = ({
             {
                 loading ? <MyLoader/> :
                     <>  {/* Это фрагмент,который заменяет создание лишнего родительского <div>*/}
-                        {onFavorite &&  <div className={classes.favorite} onClick={onClickFavorite}>
+                        {onFavorite && <div className={classes.favorite} onClick={onClickFavorite}>
                             <img src={isFavorite ? '/img/heart-liked.svg' : '/img/heart-unliked.svg'} alt="unliked"/>
                         </div>}
                         <img width={133} height={112} src={imageUrl} alt="Sneakers"/>
@@ -42,9 +43,10 @@ const Card = ({
                                 <span>Цена:</span>
                                 <b>{price}</b>
                             </div>
-                            { onPlus && <img className={classes.plus}
-                                  onClick={onClickPlus}
-                                  src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt='Plus'/>}
+                            {onPlus && <img className={classes.plus}
+                                            onClick={onClickPlus}
+                                            src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
+                                            alt='Plus'/>}
                         </div>
                     </>
             }
