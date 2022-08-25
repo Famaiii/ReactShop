@@ -69,16 +69,15 @@ function App() {
         setSearchValue(event.target.value);
     }
 
-    const onAddToFavorite = (obj) => {
+    const onAddToFavorite = async (obj) => {
         try {
-
-            if (favorites.find((favObj) => favObj.id === obj.id)) {
-                axios.delete(`https://630139989a1035c7f8ffc778.mockapi.io/favorites/${obj.id}`);
+            if (favorites.find((favObj) => Number(favObj.id) === Number(obj.id))) {
+               axios.delete(`https://630139989a1035c7f8ffc778.mockapi.io/favorites/${obj.id}`);
+                setFavorites((prev) => prev.filter(item => Number(item.id) !== Number(obj.id)));
             } else {
-                axios.post('https://630139989a1035c7f8ffc778.mockapi.io/favorites', obj).then(res => {
+               const {data} = await axios.post('https://630139989a1035c7f8ffc778.mockapi.io/favorites', obj);
                     // res.data
-                    setFavorites((prev) => [...prev, res.data]);
-                })
+                    setFavorites((prev) => [...prev, data]);
             }
         } catch (error) {
             alert("Не удалось добавить в Favorite")
@@ -91,7 +90,7 @@ function App() {
 
     return (
 
-        <AppContext.Provider value={{items, cartItems, favorites, isItemAdded}}>
+        <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems}}>
             <div className="wrapper clear">
 
                 {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem}/>}
@@ -113,8 +112,7 @@ function App() {
                     </Route>
 
                     <Route path="/favorites"
-                           element={<Favorites
-                               onAddToFavorite={onAddToFavorite}/>}>
+                           element={<Favorites/>}>
 
                     </Route>
                 </Routes>

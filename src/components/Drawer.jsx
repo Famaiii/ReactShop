@@ -1,6 +1,31 @@
 import React from 'react';
+import Info from "./Info";
+import {AppContext} from "../App";
+import axios from "axios";
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve,ms))
 
 const Drawer = ({onClose, onRemove, items = []}) => {
+    const {cartItems, setCartItems} = React.useContext(AppContext);
+    const [isComplete, setIsComplete] = React.useState(false);
+
+    const onClickOrder = async () => {
+    try {
+        await axios.post("https://630139989a1035c7f8ffc778.mockapi.io/orders",{
+            items: cartItems});
+        setIsComplete(true);
+        setCartItems([]);
+
+        for (let i = 0; i < cartItems.length; i++) {
+            const item = cartItems[i];
+            await axios.delete("https://630139989a1035c7f8ffc778.mockapi.io/cart/" + item.id);
+            await delay(1000);
+        }
+    } catch (error) {
+        alert("Ошибка при создании заказа")
+    }
+    };
+
     return (
         <div className='overlay'>
             <div className='drawer'>
@@ -9,13 +34,12 @@ const Drawer = ({onClose, onRemove, items = []}) => {
                     <img onClick={onClose} className='removeBtn cu-p' src='/img/btn-remove.svg' alt='remove'/>
                 </h2>
 
-                {
-                    items.length > 0 ?
-                        <div className='d-flex flex-column cartWrap'>
+                {items.length > 0 ?
+                        <div className='d-flex flex-column cartWrap flex'>
                             <div className="items">
                                 {
                                     items.map((obj) => (
-                                        <div  key={obj.id} className="cartItem d-flex align-center mb-20">
+                                        <div key={obj.id} className="cartItem d-flex align-center mb-20">
 
                                             <div
                                                 style={{backgroundImage: `url(${obj.imageUrl})`}}
@@ -48,20 +72,17 @@ const Drawer = ({onClose, onRemove, items = []}) => {
                                     </li>
                                 </ul>
 
-                                <button className='greenButton'>Оформить заказ <img src='/img/arrow.svg' alt='arrow'/>
+                                <button className='greenButton' onClick={onClickOrder}>Оформить заказ <img src='/img/arrow.svg' alt='arrow'/>
                                 </button>
 
                             </div>
                         </div>
-                        : <div className='cartEmpty d-flex align-center justify-center flex-column flex'>
-                            <img className='mb-20' width={120} height={120} src="/img/empty-cart.jpg" alt='empty'/>
-                            <h2>Корзина пустая</h2>
-                            <p className='opacity-6'>Добавьте хотя бы один товар, чтобы сделать заказ</p>
-                            <button onClick={onClose} className="greenButton">
-                                <img src="/img/arrow.svg" alt="arrow"/>
-                                Вернуться назад
-                            </button>
-                        </div>
+                        :
+                        <Info
+                            title={isComplete ? "Заказ оформлен" : "Корзина пустая"}
+                            description={isComplete ? "Ваш заказ принят, мы свяжемся с вами в ближайшее время" : "Добавьте хотя бы один товар,чтобы сделать заказ"}
+                            image={isComplete ? "/img/complete-order.jpg" : "/img/empty-cart.jpg"}
+                        />
                 }
 
 
