@@ -1,13 +1,18 @@
 import React from 'react';
-import Info from "./Info";
-import {AppContext} from "../App";
 import axios from "axios";
+
+import Info from "../Info";
+import {AppContext} from "../../App";
+
+import classes from "./Drawer.module.scss";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve,ms))
 
-const Drawer = ({onClose, onRemove, items = []}) => {
+const Drawer = ({onClose, onRemove, items = [], opened}) => {
     const {cartItems, setCartItems} = React.useContext(AppContext);
     const [isComplete, setIsComplete] = React.useState(false);
+    const totalPrice = cartItems.reduce((sum,obj) => obj.price + sum, 0)
+
 
     const onClickOrder = async () => {
     try {
@@ -27,8 +32,8 @@ const Drawer = ({onClose, onRemove, items = []}) => {
     };
 
     return (
-        <div className='overlay'>
-            <div className='drawer'>
+        <div className={`${classes.overlay} ${opened ? classes.overlayVisible : ''}`}>
+            <div className={classes.drawer}>
                 <h2 className='mb-30 d-flex justify-between'>
                     Корзина
                     <img onClick={onClose} className='removeBtn cu-p' src='/img/btn-remove.svg' alt='remove'/>
@@ -36,7 +41,7 @@ const Drawer = ({onClose, onRemove, items = []}) => {
 
                 {items.length > 0 ?
                         <div className='d-flex flex-column cartWrap flex'>
-                            <div className="items">
+                            <div className={classes.items}>
                                 {
                                     items.map((obj) => (
                                         <div key={obj.id} className="cartItem d-flex align-center mb-20">
@@ -63,12 +68,12 @@ const Drawer = ({onClose, onRemove, items = []}) => {
                                     <li>
                                         <span>Итого:</span>
                                         <div></div>
-                                        <b>21 498 грн.</b>
+                                        <b>{totalPrice} грн.</b>
                                     </li>
                                     <li>
                                         <span>Налог 5%:</span>
                                         <div></div>
-                                        <b>1074 грн.</b>
+                                        <b>{Math.round(totalPrice / 100 * 5)} грн.</b>
                                     </li>
                                 </ul>
 

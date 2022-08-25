@@ -17,7 +17,6 @@ const Card = ({
     const {isItemAdded} = React.useContext(AppContext);
     const [isFavorite, setIsFavorite] = React.useState(favorited);
 
-    console.log(title,isItemAdded(id))
 
     const onClickPlus = () => {
         onPlus({id, title, imageUrl, price});
@@ -33,9 +32,9 @@ const Card = ({
             {
                 loading ? <MyLoader/> :
                     <>  {/* Это фрагмент,который заменяет создание лишнего родительского <div>*/}
-                        <div className={classes.favorite} onClick={onClickFavorite}>
+                        {onFavorite &&  <div className={classes.favorite} onClick={onClickFavorite}>
                             <img src={isFavorite ? '/img/heart-liked.svg' : '/img/heart-unliked.svg'} alt="unliked"/>
-                        </div>
+                        </div>}
                         <img width={133} height={112} src={imageUrl} alt="Sneakers"/>
                         <h5>{title}</h5>
                         <div className="d-flex justify-between align-center">
@@ -43,9 +42,9 @@ const Card = ({
                                 <span>Цена:</span>
                                 <b>{price}</b>
                             </div>
-                            <img className={classes.plus}
-                                 onClick={onClickPlus}
-                                 src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt='Plus'/>
+                            { onPlus && <img className={classes.plus}
+                                  onClick={onClickPlus}
+                                  src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt='Plus'/>}
                         </div>
                     </>
             }

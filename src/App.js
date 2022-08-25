@@ -2,10 +2,11 @@ import React from "react";
 import './index.scss'
 import axios from "axios";
 import Header from "./components/Header";
-import Drawer from "./components/Drawer";
+import Drawer from "./components/Drawer/Drawer";
 import {Route, Routes} from "react-router-dom";
 import Home from "./Pages/Home";
 import Favorites from "./Pages/Favorites";
+import Orders from "./Pages/Orders";
 
 export const AppContext = React.createContext({});
 
@@ -20,6 +21,7 @@ function App() {
     const [favorites, setFavorites] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
+    // console.log(cartItems);
 
     React.useEffect(() => {
         async function fetchData() {
@@ -90,10 +92,23 @@ function App() {
 
     return (
 
-        <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems}}>
+        <AppContext.Provider value={{items,
+            cartItems,
+            favorites,
+            isItemAdded,
+            onAddToFavorite,
+            onAddToCart,
+            isLoading,
+            setCartOpened,
+            setCartItems}}>
+
             <div className="wrapper clear">
 
-                {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem}/>}
+                <Drawer
+                    items={cartItems}
+                    onClose={() => setCartOpened(false)}
+                    onRemove={onRemoveItem}
+                    opened={cartOpened}/>
 
                 <Header onClickCart={() => setCartOpened(true)}/>
                 <Routes>
@@ -113,6 +128,11 @@ function App() {
 
                     <Route path="/favorites"
                            element={<Favorites/>}>
+
+                    </Route>
+
+                    <Route path="/orders"
+                           element={<Orders/>}>
 
                     </Route>
                 </Routes>
