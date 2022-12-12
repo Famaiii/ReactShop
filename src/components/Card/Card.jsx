@@ -32,7 +32,7 @@ const Card = ({
         <div className={classes.card}>
             {
                 loading ? <MyLoader/> :
-                    <>  {/* Это фрагмент,который заменяет создание лишнего родительского <div>*/}
+                    <>  {/* Это фрагмент, который заменяет создание лишнего родительского <div>*/}
                         {onFavorite && <div className={classes.favorite} onClick={onClickFavorite}>
                             <img src={isFavorite ? '/img/heart-liked.svg' : '/img/heart-unliked.svg'} alt="unliked"/>
                         </div>}
