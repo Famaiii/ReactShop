@@ -59,7 +59,7 @@ function App() {
             const findItem = cartItems.find((item) => Number(item.parentId) === Number(obj.id));
             if (findItem) { // Если при нажатии на плюс в корзине есть такой айди,то добавление не произойдет
                 setCartItems((prev) => prev.filter(item => Number(item.parentId) !== Number(obj.id)));
-                await axios.delete(`https://630139989a1035c7f8ffc778.mockapi.io/cart/${findItem .id}`);
+                await axios.delete(`https://630139989a1035c7f8ffc778.mockapi.io/cart/${findItem.id}`);
             } else {
                 setCartItems((prev) => [...prev, obj]);
 
